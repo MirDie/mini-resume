@@ -1,0 +1,52 @@
+info:
+  contact: {}
+paths:
+  /login:
+    post:
+      description: 登录
+      produces:
+      - application/json
+      responses: {}
+  /register:
+    post:
+      description: 注册
+      parameters:
+      - description: email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+  /resume:
+    get:
+      description: 获取简历
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+  /send-verification-code:
+    post:
+      description: 发送验证码
+      parameters:
+      - description: email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses: {}
+swagger: "2.0"

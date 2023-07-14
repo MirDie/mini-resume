@@ -1,0 +1,15 @@
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: password
+  dbname: dbname
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: password
+email:
+  host: email的smtp
+  port: smtp的port
+  username: username
+  password: checkCode

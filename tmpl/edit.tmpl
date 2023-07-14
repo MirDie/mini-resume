@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Editor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .menu {
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+
+        .editor {
+            padding: 20px;
+        }
+
+        .preview {
+            padding: 20px;
+            border-left: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 editor">
+                <h2>Edit Resume</h2>
+                <form id="resumeForm">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" />
+                    </div>
+                    <div class="form-group">
+                        <label for="skills">Technical Skills:</label>
+                        <textarea class="form-control" id="skills" placeholder="Enter your technical skills"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="projects">Projects:</label>
+                        <input type="text" class="form-control" id="projectName" placeholder="Enter project name" />
+                        <button type="button" class="btn btn-primary" id="addProject">Add</button>
+                        <ul id="projectList"></ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="workExperience">Work Experience:</label>
+                        <textarea class="form-control" id="workExperience" placeholder="Enter your work experience"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="personalProjects">Personal Projects:</label>
+                        <input type="text" class="form-control" id="personalProjectName" placeholder="Enter project name" />
+                        <button type="button" class="btn btn-primary" id="addPersonalProject">Add</button>
+                        <ul id="personalProjectList"></ul>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+            <div class="col-6 preview">
+                <h2>Preview</h2>
+                <p><strong>Name:</strong> <span id="previewName"></span></p>
+                <p><strong>Email:</strong> <span id="previewEmail"></span></p>
+                <p><strong>Phone:</strong> <span id="previewPhone"></span></p>
+                <p><strong>Technical Skills:</strong> <span id="previewSkills"></span></p>
+                <p><strong>Projects:</strong> <span id="previewProjects"></span></p>
+                <p><strong>Work Experience:</strong> <span id="previewWorkExperience"></span></p>
+                <p><strong>Personal Projects:</strong> <span id="previewPersonalProjects"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var projectList = [];
+            var personalProjectList = [];
+
+            // 添加项目
+            function addProject() {
+                var projectNameInput = document.getElementById('projectName');
+                var projectName = projectNameInput.value;
+                if (projectName.trim() === '') {
+                    return;
+                }
+                projectList.push(projectName);
+                projectNameInput.value = '';
+                updateProjectList();
+            }
+
+            // 添加个人项目
+            function addPersonalProject() {
+                var personalProjectNameInput = document.getElementById('personalProjectName');
+                var personalProjectName = personalProjectNameInput.value;
+                if (personalProjectName.trim() === '') {
+                    return;
+                }
+                personalProjectList.push(personalProjectName);
+                personalProjectNameInput.value = '';
+                updatePersonalProjectList();
+            }
+
+            // 更新项目列表
+            function updateProjectList() {
+                var projectListContainer = document.getElementById('projectList');
+                projectListContainer.innerHTML = '';
+                projectList.forEach(function(project) {
+                    var li = document.createElement('li');
+                    li.textContent = project;
+                    projectListContainer.appendChild(li);
+                });
+            }
+
+            // 更新个人项目列表
+            function updatePersonalProjectList() {
+                var personalProjectListContainer = document.getElementById('personalProjectList');
+                personalProjectListContainer.innerHTML = '';
+                personalProjectList.forEach(function(project) {
+                    var li = document.createElement('li');
+                    li.textContent = project;
+                    personalProjectListContainer.appendChild(li);
+                });
+            }
+
+            // 监听表单提交事件
+            document.getElementById('resumeForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // 获取表单数据
+                var name = document.getElementById('name').value;
+                var email = document.getElementById('email').value;
+                var phone = document.getElementById('phone').value;
+                var skills = document.getElementById('skills').value;
+                var projects = projectList.join('\n');
+                var workExperience = document.getElementById('workExperience').value;
+                var personalProjects = personalProjectList.join('\n');
+
+                // 更新预览内容
+                document.getElementById('previewName').textContent = name;
+                document.getElementById('previewEmail').textContent = email;
+                document.getElementById('previewPhone').textContent = phone;
+                document.getElementById('previewSkills').textContent = skills;
+                document.getElementById('previewProjects').textContent = projects;
+                document.getElementById('previewWorkExperience').textContent = workExperience;
+                document.getElementById('previewPersonalProjects').textContent = personalProjects;
+
+                // 清空项目列表和个人项目列表
+                projectList = [];
+                personalProjectList = [];
+                updateProjectList();
+                updatePersonalProjectList();
+
+                // 发送 Fetch 请求保存数据
+                fetch('/save', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        skills: skills,
+                        projects: projects,
+                        workExperience: workExperience,
+                        personalProjects: personalProjects
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        console.log('Data saved successfully!');
+                    } else {
+                        console.error('Data saving failed.');
+                    }
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+            });
+
+            // 监听添加项目按钮点击事件
+            document.getElementById('addProject').addEventListener('click', function() {
+                addProject();
+            });
+
+            // 监听添加个人项目按钮点击事件
+            document.getElementById('addPersonalProject').addEventListener('click', function() {
+                addPersonalProject();
+            });
+        });
+    </script>
+</body>
+</html>

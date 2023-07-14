@@ -1,0 +1,10 @@
+.previewContainer{
+    background-color: #ffffff;
+    white-space: normal;
+    word-break: break-all;
+    width: 210mm;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
