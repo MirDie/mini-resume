@@ -16,7 +16,7 @@ function App() {
             bottom: 16,
             right: 16,
           }}
-          href="https://github.com/yourusername"
+          href="https://github.com/MirDie/mini-resume"
           target="_blank"
         >
           <GitHubIcon />
