@@ -4,7 +4,7 @@ Mini-Resume 是一个使用 Golang 编写的简单在线简历程序，项目分
 
 ## 功能特点
 
-- 👤 用户注册、登录功能,访客功能
+- 👤 用户注册、登录功能、访客功能
 - 📃 创建、编辑个人简历
 - 🖥️ 在线预览简历
 - 💾 生成 PDF 格式简历
@@ -19,6 +19,17 @@ Mini-Resume 是一个使用 Golang 编写的简单在线简历程序，项目分
 - Node.js 18.16.0 或更高版本
 - Golang 1.19.4 或更高版本
 - Mysql 数据库
+
+## 示例图片
+
+- Home
+![示例图片](https://github.com/MirDie/mini-resume/blob/main/static/home.jpg?raw=true)
+- Login
+![示例图片](https://github.com/MirDie/mini-resume/blob/main/static/login.jpg?raw=true)
+- Register
+![示例图片](https://github.com/MirDie/mini-resume/blob/main/static/register.jpg?raw=true)
+- Edit
+![示例图片](https://github.com/MirDie/mini-resume/blob/main/static/edit.jpg?raw=true)
 
 ## 安装步骤
 
